@@ -1,0 +1,181 @@
+<form class="form-card" [formGroup]="employeeForm" (ngSubmit)="save()">
+  <!-- HEADER -->
+
+  <div class="card-title">
+    <div class="title-icon">
+      <i class="bi bi-person-vcard"></i>
+    </div>
+
+    <div>
+      <h2>Informasi Karyawan</h2>
+
+      <p>
+        @if (mode === 'create') {
+          Masukkan informasi karyawan baru
+        } @else {
+          Ubah informasi data karyawan
+        }
+      </p>
+    </div>
+  </div>
+
+  <!-- FORM -->
+
+  <div class="form-grid">
+    <!-- NAMA -->
+
+    <div class="form-group full-width">
+      <label for="nama">
+        Nama Lengkap
+
+        <span>*</span>
+      </label>
+
+      <input id="nama" type="text" formControlName="nama" placeholder="Masukkan nama lengkap" />
+
+      @if (nama.invalid && (nama.touched || submittedForm())) {
+        <small class="error">
+          @if (nama.errors?.['required']) {
+            Nama wajib diisi.
+          }
+
+          @if (nama.errors?.['minlength']) {
+            Nama minimal 5 karakter.
+          }
+        </small>
+      }
+    </div>
+
+    <!-- JABATAN -->
+
+    <div class="form-group">
+      <label for="jabatan">
+        Jabatan
+
+        <span>*</span>
+      </label>
+      <select formControlName="jabatan">
+        <option value="" disabled>Pilih Jabatan</option>
+        <option value="Junior">Junior</option>
+        <option value="Middle">Middle</option>
+        <option value="Senior">Senior</option>
+      </select>
+
+      @if (jabatan.invalid && (jabatan.touched || submittedForm())) {
+        <small class="error"> Jabatan wajib diisi. </small>
+      }
+    </div>
+
+    <!-- DIVISI -->
+
+    <div class="form-group">
+      <label for="divisi">
+        Divisi
+
+        <span>*</span>
+      </label>
+
+      <select id="divisi" formControlName="divisi">
+        <option value="" disabled>Pilih Divisi</option>
+        <option value="IT">IT</option>
+        <option value="Accounting">Accounting</option>
+        <option value="Bisnis">Bisnis</option>
+        <option value="Resiko">Resiko</option>
+      </select>
+
+      @if (divisi.invalid && (divisi.touched || submittedForm())) {
+        <small class="error"> Divisi wajib dipilih. </small>
+      }
+    </div>
+
+    <!-- STATUS -->
+
+    <div class="form-group">
+      <label for="status">
+        Status
+        <span>*</span>
+      </label>
+
+      <div class="radio-group">
+        <label> <input type="radio" formControlName="status" value="Aktif" /> Aktif </label>
+        <label> <input type="radio" formControlName="status" value="Non-aktif" /> Non-Aktif </label>
+      </div>
+      @if (status.invalid && (status.touched || submittedForm())) {
+        <small class="error"> Status wajib dipilih. </small>
+      }
+    </div>
+
+    <!-- NO TELP -->
+    <div class="form-group">
+      <label>No Telepon
+        <span>*</span>
+      </label>
+      <input type="text" formControlName="notelp" placeholder="Contoh: 08123456789" />
+      @if (notelp.invalid && (notelp.touched || submittedForm())) {
+        <div class="error">
+          @if (notelp.hasError('required')) {
+            <span>No Telepon wajib diisi.</span>
+          }
+          @if (notelp.hasError('pattern')) {
+            <span>Hanya boleh berisi angka.</span>
+          }
+          
+        </div>
+      }
+    </div>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label>Email
+        <span>*</span>
+      </label>
+      <input type="email" formControlName="email" placeholder="email@domain.com" />
+      @if (email.invalid && (email.touched || submittedForm())) {
+        <div class="error">
+          @if (email.hasError('required')) {
+            <span>Email wajib diisi.</span>
+          }
+          @if (email.hasError('email')) {
+            <span>Format email tidak valid.</span>
+          }
+          
+        </div>
+      }
+    </div>
+
+    <!-- ID -->
+
+    @if (mode === 'edit' && employee) {
+      <div class="form-group">
+        <label> ID Karyawan </label>
+
+        <input type="text" [value]="employee.id" disabled />
+      </div>
+    }
+  </div>
+
+  <!-- FOOTER -->
+
+  <div class="form-footer">
+    <button type="button" class="btn-secondary" (click)="cancel()">Batal</button>
+
+    <button type="submit" [disabled]="isSaving" class="btn-primary">
+      @if(isSaving){
+        <i class="bi bi-arrow-repeat spinner"></i>Menyimpnan...
+      }@else {
+        <i
+        class="bi"
+        [class.bi-plus-lg]="mode === 'create'"
+        [class.bi-check-lg]="mode === 'edit'"
+      ></i>
+
+      @if (mode === 'create') {
+        Simpan Karyawan
+      } @else {
+        Simpan Perubahan
+      }
+      }
+    </button>
+  </div>
+</form>
+

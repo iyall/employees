@@ -1,0 +1,129 @@
+<div class="page-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+        <h1>Data Karyawan</h1>
+
+        <p>Kelola data karyawan perusahaan</p>
+    </div>
+
+    <button type="button" class="btn-primary" (click)="tambahKaryawan()">
+      <i class="bi bi-plus-lg"></i>
+
+      Tambah Karyawan
+    </button>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="table-wrapper">
+        <div class="table-header">
+            <label>Cari Nama:</label>
+             <input
+          type="search"
+          [value]="searchName"
+          placeholder="Cari berdasarkan nama"
+          (input)="setSearchName($any($event.target).value)" />
+        </div>
+        <stackline-data-table
+        title="Data Karyawan"
+        ariaLabel="Data Karyawan"
+        [columns]="columns"
+        [data]="rows"
+        [pagination]="true"
+        [selectableRows]="false"
+        [highlightOnHover]="true"
+        [globalFilter]="searchName"
+        [columnFilters]="{ nama: searchName }"
+        [fixedHeader]="true"
+        (selectedRowsChange)="selection = $event">
+        </stackline-data-table>
+      
+    </div>
+  </div>
+</div>
+<ng-template #statusCell let-row let-value="value">
+  @if(value === 'Aktif') {
+    <span class="badge badge-active">Aktif</span>
+  } @else {
+    <span class="badge badge-inactive">Non-aktif</span>
+  }
+</ng-template>
+<ng-template #actionCell let-row let-value="value">
+  <div class="action-buttons">
+    <!-- Lihat -->
+    <button
+      type="button"
+      class="action-btn view"
+      title="Lihat"
+      (click)="lihatEmployee(row)"
+    >
+      <i class="bi bi-eye"></i>
+    </button>
+
+    <!-- Edit -->
+    <button
+      type="button"
+      class="action-btn edit"
+      title="Edit"
+      (click)="editEmployee(row)"
+    >
+      <i class="bi bi-pencil-square"></i>
+    </button>
+
+    <!-- Delete -->
+    <button
+      type="button"
+      class="action-btn delete"
+      title="Hapus"
+      (click)="confirmDelete(row)"
+    >
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</ng-template>
+
+
+
+<!-- DELETE MODAL -->
+
+@if (showDeleteModal) {
+  <div class="modal-overlay" (click)="cancelDelete()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-icon">
+        <i class="bi bi-exclamation-triangle"></i>
+      </div>
+
+      <h2>Hapus Data</h2>
+
+      <p>Apakah anda yakin ingin menghapus data?</p>
+
+      @if (selectedEmployee) {
+        <div class="selected-data">
+          <strong>
+            {{ selectedEmployee.nama }}
+          </strong>
+
+          <span>
+            {{ selectedEmployee.jabatan }}
+          </span>
+          <span>
+            {{ selectedEmployee.divisi }}
+          </span>
+          <span>
+            {{ selectedEmployee.notelp }}
+          </span>
+          <span>
+            {{ selectedEmployee.email }}
+          </span>
+        </div>
+      }
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="cancelDelete()">Tidak</button>
+
+        <button type="button" class="btn-danger" (click)="deleteEmployee()">Ya</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,151 @@
+<!-- POPUP SUKSES -->
+<div class="overlay" *ngIf="showSuccess">
+  <div class="popup">
+    <h3>Berhasil!</h3>
+    <p>Data berhasil diperbarui.</p>
+    <button (click)="showSuccess = false">Tutup</button>
+  </div>
+</div>
+
+<div class="page-container">
+  <!-- Header -->
+
+  <div class="page-header">
+    <div class="header-left">
+      <button type="button" class="btn-back" (click)="onBack()">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <div>
+        <h1>{{isAdd?'Tambah':'Edit'}} Data Karyawan</h1>
+      </div>
+    </div>
+  </div>
+  <div class="profile-card">
+    @if (employee()) {
+      <div class="form-container">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+          <!-- NAMA -->
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input
+              type="text"
+              formControlName="nama"
+              [class.is-invalid]="isFieldInvalid('nama')"
+              placeholder="Masukkan nama"
+            />
+            @if (isFieldInvalid('nama')) {
+                <div class="error-message">
+                @if(editForm.get('nama')?.errors?.['required']){
+                    <span>Nama wajib diisi.</span>
+                }
+                @if(editForm.get('nama')?.errors?.['minlength']){
+                    <span>Nama minimal 5 karakter.</span>
+                }
+                
+                </div>
+            }
+
+          </div>
+
+          <!-- JABATAN -->
+          <div class="form-group">
+            <label>Jabatan</label>
+            <select formControlName="jabatan" [class.is-invalid]="isFieldInvalid('jabatan')">
+              <option value="" disabled>Pilih Jabatan</option>
+              <option value="Junior">Junior</option>
+              <option value="Middle">Middle</option>
+              <option value="Senior">Senior</option>
+            </select>
+            <div class="error-message" *ngIf="isFieldInvalid('jabatan')">
+              Jabatan wajib dipilih.
+            </div>
+          </div>
+
+          <!-- DIVISI -->
+          <div class="form-group">
+            <label>Divisi</label>
+            <select formControlName="divisi" [class.is-invalid]="isFieldInvalid('divisi')">
+              <option value="" disabled>Pilih Divisi</option>
+              <option value="IT">IT</option>
+              <option value="Accounting">Accounting</option>
+              <option value="Bisnis">Bisnis</option>
+              <option value="Resiko">Resiko</option>
+            </select>
+            <div class="error-message" *ngIf="isFieldInvalid('divisi')">Divisi wajib dipilih.</div>
+          </div>
+
+          <!-- STATUS (RADIO) -->
+          <div class="form-group">
+            <label>Status</label>
+            <div class="radio-group">
+              <label> <input type="radio" formControlName="status" value="Aktif" /> Aktif </label>
+              <label>
+                <input type="radio" formControlName="status" value="Non-aktif" /> Non-Aktif
+              </label>
+            </div>
+            <div class="error-message" *ngIf="isFieldInvalid('status')">Status wajib dipilih.</div>
+          </div>
+
+          <!-- NO TELP -->
+          <div class="form-group">
+            <label>No Telepon</label>
+            <input
+              type="text"
+              formControlName="notelp"
+              [class.is-invalid]="isFieldInvalid('notelp')"
+              placeholder="Contoh: 08123456789"
+            />
+            <div class="error-message" *ngIf="isFieldInvalid('notelp')">
+              <span *ngIf="editForm.get('notelp')?.errors?.['required']"
+                >No Telepon wajib diisi.</span
+              >
+              <span *ngIf="editForm.get('notelp')?.errors?.['pattern']"
+                >Hanya boleh berisi angka.</span
+              >
+            </div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              [class.is-invalid]="isFieldInvalid('email')"
+              placeholder="email@domain.com"
+            />
+            <div class="error-message" *ngIf="isFieldInvalid('email')">
+              <span *ngIf="editForm.get('email')?.errors?.['required']">Email wajib diisi.</span>
+              <span *ngIf="editForm.get('email')?.errors?.['email']"
+                >Format email tidak valid.</span
+              >
+            </div>
+          </div>
+
+          <!-- BUTTON SUBMIT -->
+          <button type="submit" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Simpan Perubahan</span>
+            <span *ngIf="isLoading">Loading...</span>
+          </button>
+        </form>
+      </div>
+    } @else {
+      <!-- Data tidak ditemukan -->
+
+      <div class="not-found">
+        <div class="not-found-icon">
+          <i class="bi bi-person-x"></i>
+        </div>
+
+        <h2>Data Karyawan Tidak Ditemukan</h2>
+
+        <p>Data karyawan yang Anda cari tidak tersedia.</p>
+
+        <button type="button" class="btn-primary" (click)="onBack()">
+          Kembali ke Data Karyawan
+        </button>
+      </div>
+    }
+  </div>
+</div>

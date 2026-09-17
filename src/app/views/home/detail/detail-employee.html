@@ -1,0 +1,244 @@
+<div class="page-container">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div class="header-left">
+
+      <button
+        type="button"
+        class="btn-back"
+        (click)="onBack()"
+      >
+        <i class="bi bi-arrow-left"></i>
+      </button>
+
+      <div>
+
+        <h1>Detail Karyawan</h1>
+
+        <p>
+          Informasi lengkap data karyawan
+        </p>
+
+      </div>
+
+    </div>
+
+
+    @if (employee()) {
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="onEdit()"
+      >
+
+        <i class="bi bi-pencil-square"></i>
+
+        Edit Karyawan
+
+      </button>
+
+    }
+
+  </div>
+
+
+  @if (employee()) {
+
+    <!-- Employee Profile -->
+
+    <div class="profile-card">
+
+      <div class="avatar-large">
+
+        {{ employee()?.nama.charAt(0) }}
+
+      </div>
+
+
+      <div class="profile-info">
+
+        <h2>
+          {{ employee()?.nama }}
+        </h2>
+
+        <p>
+          {{ employee()?.jabatan }}
+        </p>
+
+      </div>
+
+
+      <div class="profile-status">
+
+        @if (employee()?.status === 'Aktif') {
+
+          <span class="badge badge-active">
+
+            <span class="status-dot"></span>
+
+            Aktif
+
+          </span>
+
+        } @else {
+
+          <span class="badge badge-inactive">
+
+            <span class="status-dot"></span>
+
+            Non-aktif
+
+          </span>
+
+        }
+
+      </div>
+
+    </div>
+
+
+    <!-- Detail -->
+
+    <div class="detail-card">
+
+      <div class="card-title">
+
+        <i class="bi bi-person-vcard"></i>
+
+        <h2>Informasi Karyawan</h2>
+
+      </div>
+
+
+      <div class="detail-grid">
+
+        <!-- ID -->
+
+        <div class="detail-item">
+
+          <span class="label">
+            ID Karyawan
+          </span>
+
+          <span class="value">
+            {{ employee()?.id }}
+          </span>
+
+        </div>
+
+
+        <!-- Nama -->
+
+        <div class="detail-item">
+
+          <span class="label">
+            Nama Lengkap
+          </span>
+
+          <span class="value">
+            {{ employee()?.nama }}
+          </span>
+
+        </div>
+
+
+        <!-- Jabatan -->
+
+        <div class="detail-item">
+
+          <span class="label">
+            Jabatan
+          </span>
+
+          <span class="value">
+            {{ employee()?.jabatan }}
+          </span>
+
+        </div>
+
+
+        <!-- Divisi -->
+
+        <div class="detail-item">
+
+          <span class="label">
+            Divisi
+          </span>
+
+          <span class="value">
+            {{ employee()?.jabatan }}
+          </span>
+
+        </div>
+
+
+        <!-- Status -->
+
+        <div class="detail-item">
+
+          <span class="label">
+            Status
+          </span>
+
+          <span class="value">
+
+            @if (employee()?.status === 'Aktif') {
+
+              <span class="badge badge-active">
+                Aktif
+              </span>
+
+            } @else {
+
+              <span class="badge badge-inactive">
+                Non-aktif
+              </span>
+
+            }
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  } @else {
+
+    <!-- Data tidak ditemukan -->
+
+    <div class="not-found">
+
+      <div class="not-found-icon">
+
+        <i class="bi bi-person-x"></i>
+
+      </div>
+
+      <h2>
+        Data Karyawan Tidak Ditemukan
+      </h2>
+
+      <p>
+        Data karyawan yang Anda cari tidak tersedia.
+      </p>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="onBack()"
+      >
+        Kembali ke Data Karyawan
+      </button>
+
+    </div>
+
+  }
+
+</div>
