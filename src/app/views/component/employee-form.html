@@ -113,10 +113,10 @@
       <input type="text" formControlName="notelp" placeholder="Contoh: 08123456789" />
       @if (notelp.invalid && (notelp.touched || submittedForm())) {
         <div class="error">
-          @if (notelp.hasError('required')) {
+          @if (notelp.errors?.['required']) {
             <span>No Telepon wajib diisi.</span>
           }
-          @if (notelp.hasError('pattern')) {
+          @if (notelp.errors?.['pattern']) {
             <span>Hanya boleh berisi angka.</span>
           }
           

@@ -2,12 +2,12 @@
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
         <div style="margin-bottom: 10px;">
             <label style="display: block; margin-bottom: 5px;">Nama:</label>
-            <input style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" formControlName="username" type="text">
+            <input style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" formControlName="username" type="text" placeholder="input admin">
         </div>
 
         <div>
             <label>Password:</label>
-            <input style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" formControlName="password" type="password">
+            <input style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;" formControlName="password" type="password" placeholder="input admin123">
         </div>
 
     @if (errorMessage) {

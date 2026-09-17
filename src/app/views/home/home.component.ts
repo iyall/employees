@@ -4,7 +4,8 @@ import {
   inject,
   OnDestroy,
   TemplateRef,
-  ViewChild
+  ViewChild,
+  signal
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -29,8 +30,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   @ViewChild('actionCell') actionCellTemplate!: TemplateRef<any>;
 
   employees = this.employeeService.employees;
-
-
   showDeleteModal = false;
 
   selectedEmployee: Employee | null = null;
@@ -39,8 +38,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   columns: DataTableColumn[] = [
   {id: 'id', name: 'No', selector: 'id' , sortable: true},
   { id: 'nama', name: 'Nama', selector: 'nama', sortable: true, style: { whiteSpace: 'wrap' }  },
-  { id: 'notelp', name: 'No. Telp', selector: 'notelp', sortable: true , width: '100px', style: { whiteSpace: 'wrap' } },
-  { id: 'email', name: 'Email', selector: 'email', sortable: true, width: '200px', style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } },
   { id: 'jabatan', name: 'Jabatan', selector: 'jabatan', sortable: true, style: { whiteSpace: 'wrap' } },
   { id: 'divisi', name: 'Divisi', selector: 'divisi', sortable: true, style: { whiteSpace: 'wrap' } },
   { id: 'status', name: 'Status', selector: 'status', sortable: true },
@@ -52,8 +49,6 @@ rows = this.employees().map((emp: Employee, idx: number) => ({
   nama: emp.nama,
   jabatan: emp.jabatan,
   divisi: emp.divisi,
-  notelp: emp.notelp,
-  email: emp.email,
   status: emp.status,
   }));
   constructor() {
@@ -117,13 +112,16 @@ rows = this.employees().map((emp: Employee, idx: number) => ({
     }
 
     const id = this.selectedEmployee.id;
-
     this.employeeService.deleteEmployee(id)
     this.showDeleteModal = false;
     this.selectedEmployee = null;
-    setTimeout(()=>{
-      
-    }, 500)
+    this.rows = this.employees().map((emp: Employee, idx: number) => ({
+        id: emp.id,
+        nama: emp.nama,
+        jabatan: emp.jabatan,
+        divisi: emp.divisi,
+        status: emp.status,
+      }));
 
    
 
